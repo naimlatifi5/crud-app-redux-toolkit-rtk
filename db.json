@@ -1,0 +1,34 @@
+{
+  "contacts": [
+    {
+      "name": "it is not working againfaf",
+      "email": "naim@test.se",
+      "contact": "hej",
+      "id": 1
+    },
+    {
+      "name": "Superman ",
+      "email": "naim@test.se",
+      "contact": "0768800849",
+      "id": 2
+    },
+    {
+      "name": "adf",
+      "email": "adsf@test",
+      "contact": "dsaf",
+      "id": 4
+    },
+    {
+      "name": "Test is it added ",
+      "email": "test@test.se",
+      "contact": "Test ",
+      "id": 5
+    },
+    {
+      "name": "Hello",
+      "email": "test@hello.se",
+      "contact": "test",
+      "id": 6
+    }
+  ]
+}
