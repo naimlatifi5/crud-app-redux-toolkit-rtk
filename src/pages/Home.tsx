@@ -1,30 +1,32 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
+  contactsAPI,
   useContactsQuery,
   useDeleteContactMutation,
-} from '../services/contactAPI'
-import { Contact } from '../model/contact.model'
-import { toast } from 'react-toastify'
-import './Home.css'
+} from "../services/contactAPI";
+import { Contact } from "../model/contact.model";
+import { toast } from "react-toastify";
+import "./Home.css";
 
 const Home = () => {
-  const { data, isLoading, isError } = useContactsQuery()
-  const [deleteContact] = useDeleteContactMutation()
+  const { data, isLoading, isError } = useContactsQuery();
+  //const queryData = useContactsQuery();
+  const queryWithoutHooks = contactsAPI.endpoints.contacts;
+  console.log("query hooks", queryWithoutHooks);
 
-  useEffect(() => {
-    if (isError) {
-      toast.error('Something went wrong')
-    }
-  }, [isError])
+  const [deleteContact] = useDeleteContactMutation();
 
   const handleDelete = async (id: any) => {
-    await deleteContact(id)
-    toast.success('Successfully remote one item')
+    await deleteContact(id);
+    toast.success("Successfully remote one item");
+  };
+  //console.log("Check what query data contains:", queryData);
+  if (isError) {
+    toast.error("Something went wrong");
   }
 
   if (isLoading) {
-    return <div>Loading....</div>
+    return <div>Loading....</div>;
   }
 
   return (
@@ -70,13 +72,13 @@ const Home = () => {
                     </Link>
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         )}
       </table>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
