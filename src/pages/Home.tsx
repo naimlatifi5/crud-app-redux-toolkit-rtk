@@ -32,7 +32,7 @@ const Home = () => {
 
   const handleLoadMore = () => {
     setPage(page + 1);
-    //TODO check total count and disable load more button
+    //TODO check total count and disable load more button.
     setContacts((contacts: any) => [...contacts, ...(data as any)]);
   };
 
