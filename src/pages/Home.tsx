@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  contactsAPI,
   useContactsQuery,
   useDeleteContactMutation,
 } from "../services/contactAPI";
@@ -9,25 +9,32 @@ import { toast } from "react-toastify";
 import "./Home.css";
 
 const Home = () => {
-  const { data, isLoading, isError } = useContactsQuery();
-  //const queryData = useContactsQuery();
-  const queryWithoutHooks = contactsAPI.endpoints.contacts;
-  console.log("query hooks", queryWithoutHooks);
-
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading, isError } = useContactsQuery(page);
+  const [contacts, setContacts] = useState<any>([]);
   const [deleteContact] = useDeleteContactMutation();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Something went wrong");
+    }
+    setContacts(data);
+  }, [isError, data]);
 
   const handleDelete = async (id: any) => {
     await deleteContact(id);
     toast.success("Successfully remote one item");
   };
-  //console.log("Check what query data contains:", queryData);
-  if (isError) {
-    toast.error("Something went wrong");
-  }
 
   if (isLoading) {
     return <div>Loading....</div>;
   }
+
+  const handleLoadMore = () => {
+    setPage(page + 1);
+    //TODO check total count and disable load more button
+    setContacts((contacts: any) => [...contacts, ...(data as any)]);
+  };
 
   return (
     <>
@@ -44,9 +51,9 @@ const Home = () => {
           </tr>
         </thead>
 
-        {data?.length && (
+        {contacts?.length && (
           <tbody>
-            {data?.map((item: Contact) => {
+            {contacts?.map((item: Contact) => {
               return (
                 <tr key={item.id}>
                   <td>{item.name}</td>
@@ -77,6 +84,9 @@ const Home = () => {
           </tbody>
         )}
       </table>
+      <button type="button" onClick={handleLoadMore}>
+        Load more...
+      </button>
     </>
   );
 };
