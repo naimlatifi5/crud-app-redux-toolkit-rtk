@@ -16,10 +16,17 @@ export const contactsAPI = createApi({
   tagTypes: ["Contact"],
   endpoints: (builder) => ({
     // query for get whereas for PUT and POST and Delte use mutation
-    contacts: builder.query<Contact[], number>({
-      query: (page: any = 1) => ({
-        url: `/contacts?_page=${page}&_limit=${2}`,
-      }),
+    contacts: builder.query<any, any>({
+      query: (args) => {
+        const { page, debouncedSearchQuery } = args;
+        return {
+          url: `/contacts?q=${debouncedSearchQuery}&_page=${page}&_limit=${2}`,
+        };
+      },
+      providesTags: ["Contact"],
+    }),
+    searchContacts: builder.query<Contact, string>({
+      query: (searchQuery) => `contacts?q=${searchQuery}`,
       providesTags: ["Contact"],
     }),
     addContact: builder.mutation<{}, Contact>({
@@ -58,4 +65,5 @@ export const {
   useAddContactMutation,
   useDeleteContactMutation,
   useUpdateContactMutation,
+  useSearchContactsQuery,
 } = contactsAPI;
