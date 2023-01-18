@@ -23,6 +23,12 @@
       "email": "test@test.se",
       "contact": "28288222",
       "id": 4
+    },
+    {
+      "name": "Another ",
+      "email": "test@test.se",
+      "contact": "929922",
+      "id": 5
     }
   ]
 }

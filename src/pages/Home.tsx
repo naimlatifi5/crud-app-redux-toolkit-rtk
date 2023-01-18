@@ -44,7 +44,7 @@ const Home = () => {
     if (isError) {
       toast.error("Something went wrong");
     }
-    setContacts(allContacts);
+    setContacts((prev: any) => [...prev, ...allContacts]);
   }, [isError, allContacts]);
 
   const handleDelete = async (id: any) => {
@@ -55,17 +55,18 @@ const Home = () => {
   if (isLoading) {
     return <div>Loading....</div>;
   }
-  //console.log(searchResult);
+
   const handleLoadMore = () => {
     setPage(page + 1);
+    console.log(allContacts);
     //TODO check total count and disable load more button.
-    setContacts((contacts: any) => [...contacts, ...(allContacts as [])]);
   };
 
   const handleSearch = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setSearchQuery(event.currentTarget.value);
+    console.log(searchQuery);
   };
 
   return (
@@ -92,9 +93,9 @@ const Home = () => {
         </thead>
         {contacts?.length ? (
           <tbody>
-            {contacts?.map((item: Contact) => {
+            {contacts?.map((item: Contact, index: number) => {
               return (
-                <tr key={item.id}>
+                <tr key={`${index}`}>
                   <td>{item.name}</td>
                   <td>{item.contact}</td>
                   <td>{item.email}</td>
